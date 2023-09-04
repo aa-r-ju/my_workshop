@@ -1,8 +1,8 @@
 import { useState,useEffect } from 'react'
 import Note from './Note'
 import axios from 'axios'
-import noteService from "./notes"
 import Notification from './Notification'
+import noteService from "./notes"
 
 const App = () => {
   const [notes, setNotes] = useState([])
@@ -64,7 +64,7 @@ const App = () => {
   }
 
   const toggleImportanceOf = id => {
-    const url = `http://localhost:3001/notes/${id}`
+    const url = `http://localhost:3001/api/notes/${id}`
     const note = notes.find(n => n.id === id)
     const changedNote = { ...note, important: !note.important }
   
@@ -75,6 +75,7 @@ const App = () => {
     noteService
       .update(id, changedNote)
       .then(returnedNote => {
+        console.log(returnedNote)
         setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       }).catch(error => {
         alert(
